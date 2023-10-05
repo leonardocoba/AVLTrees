@@ -1,11 +1,12 @@
-#include "../src/main.cpp"
-#define CATCH_CONFIG_MAIN
-#include "catch.hpp"
 
+#define CATCH_CONFIG_MAIN
+#include <catch2/catch_test_macros.hpp>
 /*
 	To check output (At the Project1 directory):
 		g++ -std=c++14 -Werror -Wuninitialized -o build/test test-unit/test.cpp && build/test
 */
+#define private public
+#include "../src/AVL.h"
 
 TEST_CASE("BST Insert", "[flag]"){
 	/*
@@ -18,5 +19,6 @@ TEST_CASE("BST Insert", "[flag]"){
 		REQUIRE(expectedOutput.size() == actualOutput.size());
 		REQUIRE(actualOutput == expectedOutput);
 	*/
-	REQUIRE(1 == 1);
+    int test = 1;
+	REQUIRE(test == 1);
 }

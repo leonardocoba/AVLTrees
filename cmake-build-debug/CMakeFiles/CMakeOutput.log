@@ -440,3 +440,13 @@ Parsed CXX implicit link information from above output:
   implicit fwks: []
 
 
+Performing C++ SOURCE FILE Test HAVE_FLAG__ffile_prefix_map_C__Users_Leonardo_CLionProjects_AVLTrees_cmake_build_debug__deps_catch2_src__ succeeded with the following output:
+Change Dir: C:/Users/Leonardo/CLionProjects/AVLTrees/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-fnt5p2
+
+Run Build Command(s):C:/Program Files/JetBrains/CLion 2023.1.2/bin/ninja/win/x64/ninja.exe cmTC_fde87 && [1/2] Building CXX object CMakeFiles/cmTC_fde87.dir/src.cxx.obj
+[2/2] Linking CXX executable cmTC_fde87.exe
+
+
+Source file was:
+int main() { return 0; }
+
