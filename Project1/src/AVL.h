@@ -5,9 +5,11 @@
 
 
 
-#include <string> // Include <string> for string data type
+#include <string>
 using namespace std;
 #include <iostream>
+#include <vector>
+
 struct Node{
     string name;
     string ufid;
@@ -20,24 +22,24 @@ struct Node{
 class AVLTree{
 private:
     Node* InsertHelper(Node* node, string name, string ufid);
-    void InorderHelper(Node* node);
-    void preorderHelper(Node* node);
-    void postorderHelper(Node* node);
+    vector<string> InorderHelper(Node* node);
+    vector<string> preorderHelper(Node* node);
+    vector<string> postorderHelper(Node* node);
     Node* rotateLeft(Node* node);
     Node* rotateRight(Node* node);
     Node* searchIDHelper(Node* node, string ID);
     void searchNameHelper(Node* node, string name, bool &found);
-    void removeNodeHelper(Node* &node,string ID);
+    bool removeNodeHelper(Node* &node,string ID);
     void removeNthNodeHelper(Node* node, int n);
 
 public:
     Node* root;
     void insert(string name, string ufid);
-    void inOrder();
-    void preOrder();
-    void postOrder();
+    vector<string> inOrder();
+    vector<string> preOrder();
+    vector<string> postOrder();
     string searchID(string ID);
-    void searchName(string name);
+    vector<string> searchName(string name);
     void levelCount();
     void removeNode(string ID);
     void removeNthNode(int n);
@@ -83,34 +85,48 @@ Node* AVLTree::InsertHelper(Node *node, std::string name, std::string ufid) {
     return node;
 }
 
-void AVLTree::InorderHelper(Node* node) {
+vector<string> AVLTree::InorderHelper(Node* node) {
+    vector<string> result;
     if (node == nullptr) {
-        return;
+        return result;
     } else {
-        InorderHelper(node->left);
-        cout << node->name << ", ";
-        InorderHelper(node->right);
+        vector<string> left = InorderHelper(node->left);
+        result.insert(result.end(), left.begin(), left.end());
+        result.push_back(node->name);
+        vector<string> right = InorderHelper(node->right);
+        result.insert(result.end(), right.begin(), right.end());
     }
+    return result;
 }
 
-void AVLTree::preorderHelper(Node *node) {
+vector<string> AVLTree::preorderHelper(Node* node) {
+    vector<string> result;
     if (node == nullptr) {
-        return;
+        return result;
     } else {
-        cout << node->name << ", ";
-        preorderHelper(node->left);
-        preorderHelper(node->right);
+        result.push_back(node->name);
+        vector<string> left = preorderHelper(node->left);
+        result.insert(result.end(), left.begin(), left.end());
+        vector<string> right = preorderHelper(node->right);
+        result.insert(result.end(), right.begin(), right.end());
     }
+    return result;
 }
-void AVLTree::postorderHelper(Node *node) {
+
+vector<string> AVLTree::postorderHelper(Node* node) {
+    vector<string> result;
     if (node == nullptr) {
-        return;
+        return result;
     } else {
-        postorderHelper(node->left);
-        postorderHelper(node->right);
-        cout << node->name << ", ";
+        vector<string> left = postorderHelper(node->left);
+        result.insert(result.end(), left.begin(), left.end());
+        vector<string> right = postorderHelper(node->right);
+        result.insert(result.end(), right.begin(), right.end());
+        result.push_back(node->name);
     }
+    return result;
 }
+
 
 
 Node* AVLTree::rotateLeft(Node *node) {
@@ -146,19 +162,18 @@ Node* AVLTree::searchIDHelper(Node *node, string ID) {
     }
 }
 
-void AVLTree::searchNameHelper(Node *node, string name, bool &found) {
-
+void AVLTree::searchNameHelper(Node* node, string name, vector<string>& result) {
     if (node == nullptr) {
         return;
     }
 
+    searchNameHelper(node->left, name, result);
+
     if (node->name == name) {
-        cout << node->ufid << "\n";
-        found = true;
+        result.push_back(node->ufid);
     }
 
-    searchNameHelper(node->left, name,found);
-    searchNameHelper(node->right, name, found);
+    searchNameHelper(node->right, name, result);
 }
 
 void AVLTree::removeNodeHelper(Node* &node, string ID) {
@@ -197,10 +212,9 @@ void AVLTree::removeNodeHelper(Node* &node, string ID) {
         }
     }
 }
-void AVLTree::removeNthNodeHelper(Node* node, int n) {
+bool AVLTree::removeNthNodeHelper(Node* node, int n) {
     if (n <= 0 || n > root->height) {
-        cout << "Unsuccessful\n";
-        return;
+        return false; // Return false if the removal is unsuccessful
     }
 
     Node* current = node;
@@ -216,7 +230,7 @@ void AVLTree::removeNthNodeHelper(Node* node, int n) {
             current = current->left;
         } else if (n == leftSubtreeSize + 1) {
             removeNodeHelper(this->root, current->ufid);
-            nthNodeFound = true; // Set the flag to true to exit the loop
+            nthNodeFound = true; // Set the flag to true to indicate successful removal
         } else {
             parent = current;
             current = current->right;
@@ -224,9 +238,7 @@ void AVLTree::removeNthNodeHelper(Node* node, int n) {
         }
     }
 
-    if (!nthNodeFound) {
-        cout << "Unsuccessful\n";
-    }
+    return nthNodeFound; // Return true if the nth node was successfully removed, false otherwise
 }
 
 
@@ -235,39 +247,35 @@ void AVLTree::insert(std::string name, std::string ufid) {
     this->root = InsertHelper(this->root, name, ufid);
 }
 
-void AVLTree::inOrder() {
-    InorderHelper(this->root);
-    cout << "\n";
-
+vector<string> AVLTree::inOrder() {
+    return InorderHelper(root);
 }
 
-void AVLTree::preOrder(){
-    preorderHelper(this->root);
+vector<string> AVLTree::preOrder() {
+    return preorderHelper(root);
 }
 
-void AVLTree::postOrder() {
-    postorderHelper(this->root);
+vector<string> AVLTree::postOrder() {
+    return postorderHelper(root);
 }
 
 string AVLTree::searchID(string ID) {
     if (searchIDHelper(this->root, ID) == nullptr){
-        return "null";
+        return "nullptr";
     }
     else{
         return searchIDHelper(this->root, ID)->name;
     }
 }
 
-void AVLTree::searchName(string name) {
-    bool found = false;
-    searchNameHelper(this->root, name, found);
-    if (!found) {
-        cout << "unsuccesful" << "\n";
-    }
+vector<string> AVLTree::searchName(string name) {
+    vector<string> result;
+    searchNameHelper(this->root, name, result);
+    return result;
 }
 
-void AVLTree::levelCount() {
-    cout << this->root->height << "\n";
+int AVLTree::levelCount() {
+    return this->root->height;
 }
 
 void AVLTree::removeNode(string ID) {
@@ -275,7 +283,7 @@ void AVLTree::removeNode(string ID) {
 }
 
 void AVLTree::removeNthNode(int n){
-    removeNthNodeHelper(this->root, n);
+    return removeNthNodeHelper(this->root, n);
 }
 
 

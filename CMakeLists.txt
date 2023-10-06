@@ -17,7 +17,7 @@ FetchContent_MakeAvailable(Catch2)
 
 include_directories(test-unit)
 
-add_executable(Main Project1/src/main.cpp Project1/src/AVL.h)
+add_executable(Main Project1/src/main.cpp Project1/src/AVL.h Project1/src/AVL.h Project1/src/AVL.h)
 
 add_executable(Tests Project1/test-unit/test.cpp)
 

@@ -9,16 +9,15 @@
 #include "../src/AVL.h"
 
 TEST_CASE("BST Insert", "[flag]"){
-	/*
-		MyAVLTree tree;   // Create a Tree object 
-		tree.insert(3);
-		tree.insert(2);
-		tree.insert(1);
-		std::vector<int> actualOutput = tree.inorder();
-		std::vector<int> expectedOutput = {1, 2, 3};
-		REQUIRE(expectedOutput.size() == actualOutput.size());
-		REQUIRE(actualOutput == expectedOutput);
-	*/
-    int test = 1;
+
+    MyAVLTree tree;   // Create a Tree object
+    tree.insert("Adam", "10000000");
+    tree.insert("Sarah", "20000000");
+    tree.insert("Steve", "30000000");
+    std::vector<int> actualOutput = tree.inorder();
+    std::vector<int> expectedOutput = {1, 2, 3};
+    REQUIRE(expectedOutput.size() == actualOutput.size());
+    REQUIRE(actualOutput == expectedOutput);
 	REQUIRE(test == 1);
 }
+

@@ -112,7 +112,7 @@ int main(int argc, char* argv[]){
                     continue;
                 }
                 string name = avlTree.searchID(argument);
-                if (name == "null"){
+                if (name == "nullptr"){
                     outputFile << "unsuccessful" << endl;
                 }
                 else{
@@ -120,19 +120,28 @@ int main(int argc, char* argv[]){
                 }
             }
         } else if (command == "printInorder") {
-            // Implement printInorder logic here
+]               <vector> temp = avlTree.inOrder();
+                for (i=0; i< temp.size(); i++){
+                    outputFile << temp[i] << endl;
+                }
         } else if (command == "printPreorder") {
-            // Implement printPreorder logic here
+            <vector> temp = avlTree.preOrder();
+            for (i=0; i< temp.size(); i++){
+                outputFile << temp[i] << endl;
+            }
         } else if (command == "printPostorder") {
-            // Implement printPostorder logic here
-        } else if (command == "printLevelCount") {
-            // Implement printLevelCount logic here
+            <vector> temp = avlTree.postOrder();
+            for (i=0; i< temp.size(); i++){
+                outputFile << temp[i] << endl;
+            }        }
+        else if (command == "printLevelCount") {
+            outputFile << avlTree.levelCount() << endl;
         } else if (command == "removeInorder") {
-            // Read and store N
             string N;
             ss >> N;
-
-
+            avlTree.removeNthNode(N);
+            if (avlTree.removeNthNode(N) == true){
+            outputFile <<"successful"<<endl;
         } else {
             outputFile << "unsuccessful" << endl;
 
